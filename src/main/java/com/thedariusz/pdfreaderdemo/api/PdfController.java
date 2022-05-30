@@ -8,7 +8,6 @@ public class PdfController {
 
     @GetMapping("/pdf")
     public String getPdfs() {
-
-        return null;
+        return "list of pdf";
     }
 }
