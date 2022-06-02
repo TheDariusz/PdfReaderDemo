@@ -11,7 +11,7 @@ import java.util.List;
 public class HtmlJsoupParser implements HtmlParser {
 
     @Override
-    public List<String> getHrefsTextWithPattern(String url, String pattern) throws IOException {
+    public List<String> getTextWithPatternFromHrefs(String url, String pattern) throws IOException {
         Document doc = Jsoup.connect(url).get();
         Elements a = doc.select("a");
         return a.stream()
