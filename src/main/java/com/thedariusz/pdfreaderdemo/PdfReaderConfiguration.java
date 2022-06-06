@@ -7,12 +7,17 @@ import org.springframework.context.annotation.Configuration;
 public class PdfReaderConfiguration {
 
     @Bean
-    HtmlParser jsoupHtmlParser() {
+    public HtmlParser jsoupHtmlParser() {
         return new HtmlJsoupParser();
     }
 
     @Bean
-    PdfReader imgwPdfReader(HtmlParser htmlJsoupParser) {
+    public PdfReader imgwPdfReader(HtmlParser htmlJsoupParser) {
         return new ImgwPdfService(htmlJsoupParser);
+    }
+
+    @Bean
+    public PdfReader pdfBoxReader() {
+        return new PdfBoxReader();
     }
 }

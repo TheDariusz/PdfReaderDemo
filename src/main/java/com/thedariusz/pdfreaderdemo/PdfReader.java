@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface PdfReader {
 
-    String getText() throws IOException;
+    String getText(String fileName) throws IOException;
 
-    List<BufferedImage> getImages();
+    List<BufferedImage> getImages(String fileName) throws IOException;
 
 }
