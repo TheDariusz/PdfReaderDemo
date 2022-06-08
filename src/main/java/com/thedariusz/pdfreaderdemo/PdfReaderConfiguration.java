@@ -12,8 +12,8 @@ public class PdfReaderConfiguration {
     }
 
     @Bean
-    public PdfReader imgwPdfReader(HtmlParser htmlJsoupParser) {
-        return new ImgwPdfService(htmlJsoupParser);
+    public ImgwPdfService imgwPdfService(HtmlParser htmlJsoupParser, PdfReader pdfBoxReader) {
+        return new ImgwPdfService(htmlJsoupParser, pdfBoxReader);
     }
 
     @Bean

@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface HtmlParser {
 
-    List<String> getTextWithPatternFromHrefs(String url, String pattern) throws IOException;
+    List<String> getFilenamesWithPatternFromBaseurl(String url, String pattern) throws IOException;
 }
