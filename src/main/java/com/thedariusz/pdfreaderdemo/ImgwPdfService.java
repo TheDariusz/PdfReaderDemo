@@ -9,13 +9,13 @@ import java.util.List;
 
 public class ImgwPdfService {
     private static final String CURRENT_ALERTS_IMGW_URL="https://danepubliczne.imgw.pl/data/current/ost_meteo/";
-    public static final String PATTERN = "pdf";
+    private static final String PATTERN = "pdf";
     private final HtmlParser htmlJsoupParser;
-    private final PdfReader pdfReader;
+    private final PdfReader pdfBoxReader;
 
     public ImgwPdfService(HtmlParser htmlJsoupParser, PdfReader pdfReader) {
         this.htmlJsoupParser = htmlJsoupParser;
-        this.pdfReader = pdfReader;
+        this.pdfBoxReader = pdfReader;
     }
 
     public List<String> getListOfUrlsForActualAlerts(String baseUrl, String pattern) throws IOException {
@@ -29,7 +29,7 @@ public class ImgwPdfService {
         List<String> listOfUrlsForActualAlerts = getListOfUrlsForActualAlerts(CURRENT_ALERTS_IMGW_URL, PATTERN);
         List<String> alertText = new ArrayList<>();
         for (String url : listOfUrlsForActualAlerts) {
-            String text = pdfReader.getText(getInputStream(url));
+            String text = pdfBoxReader.getText(getInputStream(url));
             alertText.add(text);
         }
         return alertText;
