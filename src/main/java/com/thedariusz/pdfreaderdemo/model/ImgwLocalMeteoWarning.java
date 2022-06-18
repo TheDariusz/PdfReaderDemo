@@ -3,8 +3,7 @@ package com.thedariusz.pdfreaderdemo.model;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-public record MeteoWarning(
-        int imgwNumber,
+public record ImgwLocalMeteoWarning(
         String type,
         int degree,
         Action action,
