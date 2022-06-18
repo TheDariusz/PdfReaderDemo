@@ -1,0 +1,26 @@
+@startuml
+
+interface PdfReader
+interface HtmlParser
+class PdfBoxReader
+class HtmlJsoupParser
+
+PdfReader <|.. PdfBoxReader
+HtmlParser <|.. HtmlJsoupParser
+
+class ImgwPdfService
+
+PdfBoxReader <-- ImgwPdfService
+HtmlJsoupParser <-- ImgwPdfService
+
+interface HtmlParser {
++getFilenamesWithPatternFromBaseurl(String, String): List<String>
+}
+
+interface PdfReader {
++getText(InputStream): String
++getImages(InputStream): List<BufferedImage>
+}
+
+
+@enduml
