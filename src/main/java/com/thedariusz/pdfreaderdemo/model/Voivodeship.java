@@ -20,7 +20,17 @@ public enum Voivodeship {
 
     public final String label;
 
-    private Voivodeship(String label) {
+    Voivodeship(String label) {
         this.label = label;
+    }
+
+    public static Voivodeship isInString(String text) {
+        String textToLowerCase = text.toLowerCase();
+        for (Voivodeship voivodeship : values()) {
+            if (textToLowerCase.contains(voivodeship.label)) {
+                return voivodeship;
+            }
+        }
+        return null;
     }
 }
