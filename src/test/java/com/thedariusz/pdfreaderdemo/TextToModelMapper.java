@@ -5,11 +5,14 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.OptionalInt;
+import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -139,12 +142,18 @@ class TextToModelMapper {
         LocalDateTime dateTime = LocalDateTime.parse(date.get(), formatter);
         System.out.println(dateTime);
 
+        Pattern p3 = Pattern.compile("([A-Z].+)\\/(\\d) ([A-ZŁ]+)");
+        Matcher matcher = p3.matcher(split[1]);
+        while (matcher.find()) {
+            if (matcher.groupCount()!=3) {
+                throw new IllegalArgumentException("Can't fetch warning type, or warning degree, or warning status");
+            }
+            String warningType = matcher.group(1);
+            String warningDegree = matcher.group(2);
+            String warningStatus = matcher.group(3);
+        }
 
-//        for (String element : split) {
-//            String[] lines = element.split("\n");
-//            System.out.println(lines.toString());
-//        }
-//        System.out.println(split.toString());
+
     }
 
 }
