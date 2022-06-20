@@ -1,6 +1,18 @@
 package com.thedariusz.pdfreaderdemo;
 
+import com.thedariusz.pdfreaderdemo.model.Voivodeship;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class TextToModelMapper {
 
@@ -104,14 +116,35 @@ class TextToModelMapper {
     @Test
     void testingStringUtilsUsage() {
         String[] split = sampleAlert.split("Zjawisko/Stopień zagrożenia ");
-        for (String element : split) {
-            String[] lines = element.split("\n");
-            System.out.println(lines.toString());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm 'dnia' dd.MM.yyyy");
+
+        if (split.length==0) {
+            throw new IllegalArgumentException("Format of fetched text from pdf not fit to the standard IMGW alert format");
         }
-        System.out.println(split.toString());
+
+        Voivodeship voivodeship = Voivodeship.isInString(split[0]);
+        Pattern p1 = Pattern.compile("NR (\\d+)");
+        OptionalInt warningNumber = p1.matcher(split[0])
+                .results()
+                .map(matchResult -> matchResult.group(1))
+                .mapToInt(Integer::parseInt)
+                .findFirst();
+
+        Pattern p2 = Pattern.compile("o godz\\. (\\d2:\\d2 dnia \\d+\\.\\d+\\.\\d+)");
+        Optional<String> date = p2.matcher(split[0])
+                .results()
+                .map(matchResult -> matchResult.group(1))
+                .findFirst();
+
+        LocalDateTime dateTime = LocalDateTime.parse(date.get(), formatter);
+        System.out.println(dateTime);
+
+
+//        for (String element : split) {
+//            String[] lines = element.split("\n");
+//            System.out.println(lines.toString());
+//        }
+//        System.out.println(split.toString());
     }
 
-    void testingVoivodeshipMatching() {
-
-    }
 }
