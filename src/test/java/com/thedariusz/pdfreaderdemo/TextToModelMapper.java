@@ -5,10 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.OptionalInt;
+import java.util.*;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,7 +22,7 @@ class TextToModelMapper {
             OSTRZEŻENIA METEOROLOGICZNE ZBIORCZO NR 82
             WYKAZ OBOWIĄZUJĄCYCH OSTRZEŻEŃ
             o godz. 12:42 dnia 18.06.2022
-            Zjawisko/Stopień zagrożenia Upał/2 ZMIANA
+            Zjawisko/Stopień zagrożenia Upał z deszczem/2 ZMIANA
             Obszar (w nawiasie numer
             ostrzeżenia dla powiatu)
             powiaty: milicki(33), oleśnicki(35)
@@ -133,7 +130,7 @@ class TextToModelMapper {
                 .mapToInt(Integer::parseInt)
                 .findFirst();
 
-        Pattern p2 = Pattern.compile("o godz\\. (\\d2:\\d2 dnia \\d+\\.\\d+\\.\\d+)");
+        Pattern p2 = Pattern.compile("godz\\. (\\d{2}:\\d{2} dnia \\d+\\.\\d+\\.\\d+)");
         Optional<String> date = p2.matcher(split[0])
                 .results()
                 .map(matchResult -> matchResult.group(1))
@@ -142,18 +139,60 @@ class TextToModelMapper {
         LocalDateTime dateTime = LocalDateTime.parse(date.get(), formatter);
         System.out.println(dateTime);
 
-        Pattern p3 = Pattern.compile("([A-Z].+)\\/(\\d) ([A-ZŁ]+)");
-        Matcher matcher = p3.matcher(split[1]);
-        while (matcher.find()) {
-            if (matcher.groupCount()!=3) {
-                throw new IllegalArgumentException("Can't fetch warning type, or warning degree, or warning status");
-            }
-            String warningType = matcher.group(1);
-            String warningDegree = matcher.group(2);
-            String warningStatus = matcher.group(3);
-        }
+        Pattern p3 = Pattern.compile("([A-Z][a-ząćęłńóśóżź\\s]+)\\/");
+        Optional<String> typeWarning = p3.matcher(split[1])
+                .results()
+                .map(matchResult -> matchResult.group(1))
+                .findFirst();
+        System.out.println(typeWarning.get());
 
+        Pattern p4 = Pattern.compile("\\/(\\d)[ |\\n]");
+        Optional<String> degreeWarning = p4.matcher(split[1])
+                .results()
+                .map(matchResult -> matchResult.group(1))
+                .findFirst();
+        System.out.println(degreeWarning.get());
 
+        Pattern p5 = Pattern.compile("\\/\\d([A-Z]+)");
+        Optional<String> actionWarning = p5.matcher(split[1])
+                .results()
+                .map(matchResult -> matchResult.group(1))
+                .findFirst();
+
+        Pattern p6 = Pattern.compile("([A-Za-ząćęłńóśóżź]+)\\((\\d\\d)\\)");
+        Map<String, String> powiaty = p6.matcher(split[1])
+                .results()
+                .collect(Collectors.toMap(matchResult -> matchResult.group(1),
+                        matchResult -> matchResult.group(2)));
+        System.out.println(powiaty.size());
+
+        Pattern p7 = Pattern.compile("Prawdopodobieństwo (\\d+)%");
+        Optional<String> probab = p7.matcher(split[1])
+                .results()
+                .map(matchResult -> matchResult.group(1))
+                .findFirst();
+        System.out.println(probab.get());
+
+        Pattern p8 = Pattern.compile("godz\\. (\\d{2}:\\d{2} dnia \\d+\\.\\d+\\.\\d+)");
+        List<String> startStop = p8.matcher(split[1])
+                .results()
+                .map(matchResult -> matchResult.group(1))
+                .toList();
+        System.out.println(startStop.size());
+
+        Pattern p9 = Pattern.compile("Przebieg ([\\S\\s\\n]+)SMS");
+        Optional<String> desc = p9.matcher(split[1])
+                .results()
+                .map(matchResult -> matchResult.group(1))
+                .findFirst();
+        System.out.println(desc.get());
+
+        Pattern p10 = Pattern.compile("SMS ([\\S\\s\\n]+)RSO");
+        Optional<String> sms = p10.matcher(split[1])
+                .results()
+                .map(matchResult -> matchResult.group(1))
+                .findFirst();
+        System.out.println(sms.get());
     }
 
 }
