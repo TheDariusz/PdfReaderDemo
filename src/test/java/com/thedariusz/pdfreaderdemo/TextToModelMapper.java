@@ -5,14 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 class TextToModelMapper {
 
@@ -122,7 +121,7 @@ class TextToModelMapper {
             throw new IllegalArgumentException("Format of fetched text from pdf not fit to the standard IMGW alert format");
         }
 
-        Voivodeship voivodeship = Voivodeship.isInString(split[0]);
+        Optional<Voivodeship> voivodeship = Voivodeship.isInString(split[0]);
         Pattern p1 = Pattern.compile("NR (\\d+)");
         OptionalInt warningNumber = p1.matcher(split[0])
                 .results()
@@ -136,8 +135,12 @@ class TextToModelMapper {
                 .map(matchResult -> matchResult.group(1))
                 .findFirst();
 
-        LocalDateTime dateTime = LocalDateTime.parse(date.get(), formatter);
-        System.out.println(dateTime);
+        LocalDateTime alertDateTime = date
+                .filter(textDate -> isValid(textDate, formatter))
+                .map(textDate -> LocalDateTime.parse(textDate, formatter))
+                .orElse(LocalDateTime.now());
+
+        System.out.println(alertDateTime);
 
         Pattern p3 = Pattern.compile("([A-Z][a-ząćęłńóśóżź\\s]+)\\/");
         Optional<String> typeWarning = p3.matcher(split[1])
@@ -193,6 +196,15 @@ class TextToModelMapper {
                 .map(matchResult -> matchResult.group(1))
                 .findFirst();
         System.out.println(sms.get());
+    }
+
+    private boolean isValid(String textDate, DateTimeFormatter formatter) {
+        try {
+            LocalDateTime.parse(textDate, formatter);
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+        return true;
     }
 
 }

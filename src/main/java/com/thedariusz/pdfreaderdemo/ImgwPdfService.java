@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImgwPdfService {
-    private static final String ACTUAL_ALERTS_IMGW_URL ="https://danepubliczne.imgw.pl/data/current/ost_meteo/";
+    private static final String ACTUAL_ALERTS_IMGW_URL = "https://danepubliczne.imgw.pl/data/current/ost_meteo/";
     private static final String PATTERN = "pdf";
     private final HtmlParser htmlJsoupParser;
     private final PdfReader pdfBoxReader;
@@ -18,22 +18,24 @@ public class ImgwPdfService {
         this.pdfBoxReader = pdfReader;
     }
 
-    public List<String> getListOfUrlsForActualAlerts(String baseUrl, String pattern) throws IOException {
-        List<String> fileNames = htmlJsoupParser.getFilenamesWithPatternFromBaseurl(baseUrl, pattern);
+    public List<String> getActualListOfAlerts() throws IOException {
+        List<String> listOfUrlsForActualAlerts = getListOfUrlsForActualAlerts();
+        List<String> textAlerts = new ArrayList<>();
+        for (String url : listOfUrlsForActualAlerts) {
+            String text = pdfBoxReader.getText(getInputStream(url));
+            textAlerts.add(text);
+        }
+        return textAlerts;
+    }
+
+
+    private List<String> getListOfUrlsForActualAlerts() throws IOException {
+        List<String> fileNames = htmlJsoupParser.getFilenamesWithPatternFromBaseurl(ACTUAL_ALERTS_IMGW_URL, PATTERN);
         return fileNames.stream()
-                .map(fileName -> ACTUAL_ALERTS_IMGW_URL +fileName)
+                .map(fileName -> ACTUAL_ALERTS_IMGW_URL + fileName)
                 .toList();
     }
 
-    public List<String> getActualListOfAlerts() throws IOException {
-        List<String> listOfUrlsForActualAlerts = getListOfUrlsForActualAlerts(ACTUAL_ALERTS_IMGW_URL, PATTERN);
-        List<String> alertText = new ArrayList<>();
-        for (String url : listOfUrlsForActualAlerts) {
-            String text = pdfBoxReader.getText(getInputStream(url));
-            alertText.add(text);
-        }
-        return alertText;
-    }
 
     private InputStream getInputStream(String pdfUri) throws IOException {
         URL myurl = new URL(pdfUri);
