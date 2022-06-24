@@ -2,6 +2,8 @@ package com.thedariusz.pdfreaderdemo.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class VoivodeshipTest {
@@ -25,7 +27,8 @@ class VoivodeshipTest {
                 o godz. 12:42 dnia 18.06.2022
                 """;
 
-        Voivodeship searchedVoivodeship = Voivodeship.isInString(testAlertText.toLowerCase());
+        Voivodeship searchedVoivodeship = Voivodeship.isInString(testAlertText.toLowerCase())
+                .orElse(Voivodeship.UNDEFINED);
 
         assertSame(Voivodeship.DS, searchedVoivodeship);
     }
@@ -40,9 +43,10 @@ class VoivodeshipTest {
                 o godz. 12:42 dnia 18.06.2022
                 """;
 
-        Voivodeship searchedVoivodeship = Voivodeship.isInString(testAlertText.toLowerCase());
+        Voivodeship searchedVoivodeship = Voivodeship.isInString(testAlertText.toLowerCase())
+                .orElse(Voivodeship.UNDEFINED);
 
-        assertNull(searchedVoivodeship);
+        assertSame(Voivodeship.UNDEFINED, searchedVoivodeship);
     }
 
 }
