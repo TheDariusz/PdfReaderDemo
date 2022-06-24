@@ -1,20 +1,11 @@
 package com.thedariusz.pdfreaderdemo;
 
-import com.thedariusz.pdfreaderdemo.model.ImgwLocalMeteoWarning;
-import com.thedariusz.pdfreaderdemo.model.Voivodeship;
+import com.thedariusz.pdfreaderdemo.model.ImgwMeteoWarning;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import static org.junit.jupiter.api.Assertions.*;
 
-class TextToModelMapper {
+class ImgwAlertMapperTest {
 
     private final static String sampleAlert = """
             Zasięg ostrzeżeń w województwie
@@ -104,110 +95,11 @@ class TextToModelMapper {
             strona 3 z 3
             """;
 
-    private final String sampleFirstPartOfAlert =
-            """
-                    Zasięg ostrzeżeń w województwie
-                    WOJEWÓDZTWO DOLNOŚLĄSKIE
-                    OSTRZEŻENIA METEOROLOGICZNE ZBIORCZO NR 82
-                    WYKAZ OBOWIĄZUJĄCYCH OSTRZEŻEŃ
-                    o godz. 12:42 dnia 18.06.2022
-                    """;
-
     @Test
-    void testingStringUtilsUsage() {
-        String[] split = sampleAlert.split("Zjawisko/Stopień zagrożenia ");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm 'dnia' dd.MM.yyyy");
+    void checkingModelMapping() {
+        ImgwAlertMapper imgwAlertMapper = new ImgwAlertMapper();
 
-        if (split.length==0) {
-            throw new IllegalArgumentException("Format of fetched text from pdf not fit to the standard IMGW alert format");
-        }
+        ImgwMeteoWarning imgwMeteoWarning = imgwAlertMapper.toModel(sampleAlert);
 
-        Optional<Voivodeship> voivodeship = Voivodeship.isInString(split[0]);
-        Pattern p1 = Pattern.compile("NR (\\d+)");
-        OptionalInt warningNumber = p1.matcher(split[0])
-                .results()
-                .map(matchResult -> matchResult.group(1))
-                .mapToInt(Integer::parseInt)
-                .findFirst();
-
-        Pattern p2 = Pattern.compile("godz\\. (\\d{2}:\\d{2} dnia \\d+\\.\\d+\\.\\d+)");
-        Optional<String> date = p2.matcher(split[0])
-                .results()
-                .map(matchResult -> matchResult.group(1))
-                .findFirst();
-
-        LocalDateTime alertDateTime = date
-                .filter(textDate -> isValid(textDate, formatter))
-                .map(textDate -> LocalDateTime.parse(textDate, formatter))
-                .orElse(LocalDateTime.now());
-
-        System.out.println(alertDateTime);
-
-        Pattern p3 = Pattern.compile("([A-Z][a-ząćęłńóśóżź\\s]+)\\/");
-        Optional<String> typeWarning = p3.matcher(split[1])
-                .results()
-                .map(matchResult -> matchResult.group(1))
-                .findFirst();
-        System.out.println(typeWarning.get());
-
-        Pattern p4 = Pattern.compile("\\/(\\d)[ |\\n]");
-        Optional<String> degreeWarning = p4.matcher(split[1])
-                .results()
-                .map(matchResult -> matchResult.group(1))
-                .findFirst();
-        System.out.println(degreeWarning.get());
-
-        Pattern p5 = Pattern.compile("\\/\\d\\s([A-Z]+)");
-        Optional<String> statusWarning = p5.matcher(split[1])
-                .results()
-                .map(matchResult -> matchResult.group(1))
-                .findFirst();
-        String status = statusWarning.get().toLowerCase();
-        System.out.println(ImgwLocalMeteoWarning.AlertStatus.valueOfLabel(status).get());
-
-        Pattern p6 = Pattern.compile("([A-Za-ząćęłńóśóżź]+)\\((\\d\\d)\\)");
-        Map<String, String> powiaty = p6.matcher(split[1])
-                .results()
-                .collect(Collectors.toMap(matchResult -> matchResult.group(1),
-                        matchResult -> matchResult.group(2)));
-        System.out.println(powiaty.size());
-
-        Pattern p7 = Pattern.compile("Prawdopodobieństwo (\\d+)%");
-        Optional<String> probab = p7.matcher(split[1])
-                .results()
-                .map(matchResult -> matchResult.group(1))
-                .findFirst();
-        System.out.println(probab.get());
-
-        Pattern p8 = Pattern.compile("godz\\. (\\d{2}:\\d{2} dnia \\d+\\.\\d+\\.\\d+)");
-        List<String> startStop = p8.matcher(split[1])
-                .results()
-                .map(matchResult -> matchResult.group(1))
-                .toList();
-        System.out.println(startStop.size());
-
-        Pattern p9 = Pattern.compile("Przebieg ([\\S\\s\\n]+)SMS");
-        Optional<String> desc = p9.matcher(split[1])
-                .results()
-                .map(matchResult -> matchResult.group(1))
-                .findFirst();
-        System.out.println(desc.get());
-
-        Pattern p10 = Pattern.compile("SMS ([\\S\\s\\n]+)RSO");
-        Optional<String> sms = p10.matcher(split[1])
-                .results()
-                .map(matchResult -> matchResult.group(1))
-                .findFirst();
-        System.out.println(sms.get());
     }
-
-    private boolean isValid(String textDate, DateTimeFormatter formatter) {
-        try {
-            LocalDateTime.parse(textDate, formatter);
-        } catch (DateTimeParseException e) {
-            return false;
-        }
-        return true;
-    }
-
 }

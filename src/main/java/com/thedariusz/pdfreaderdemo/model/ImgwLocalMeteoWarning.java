@@ -1,12 +1,14 @@
 package com.thedariusz.pdfreaderdemo.model;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 
 public record ImgwLocalMeteoWarning(
         String type,
         int degree,
-        Action action,
+        AlertStatus alertStatus,
         Map<String, Integer> counties,
         LocalDateTime start,
         LocalDateTime stop,
@@ -14,7 +16,19 @@ public record ImgwLocalMeteoWarning(
         String description,
         String textSms
 ) {
-    private enum Action {
-        NEW, CHANGE, CANCEL
+    public enum AlertStatus {
+        NEW("nowy"), CHANGE("zmiana"), CANCEL("odwołanie");
+
+        public final String status;
+
+        AlertStatus(String status) {
+            this.status = status;
+        }
+
+        public static Optional<AlertStatus> valueOfLabel(String status) {
+            return Arrays.stream(values())
+                    .filter(alertStatus -> alertStatus.status.equals(status))
+                    .findFirst();
+        }
     }
 }
