@@ -1,6 +1,7 @@
 package com.thedariusz.pdfreaderdemo;
 
 import com.thedariusz.pdfreaderdemo.model.ImgwMeteoWarning;
+import com.thedariusz.pdfreaderdemo.model.Voivodeship;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -98,8 +99,11 @@ class ImgwAlertMapperTest {
     @Test
     void checkingModelMapping() {
         ImgwAlertMapper imgwAlertMapper = new ImgwAlertMapper();
-
         ImgwMeteoWarning imgwMeteoWarning = imgwAlertMapper.toModel(sampleAlert);
+        assertFalse(imgwMeteoWarning.localMeteoWarnings().isEmpty());
+        assertTrue(imgwMeteoWarning.number()>0);
+        assertEquals(Voivodeship.DS, imgwMeteoWarning.voivodeship());
+        assertEquals("2022-06-18T12:42", imgwMeteoWarning.published().toString());
 
     }
 }
