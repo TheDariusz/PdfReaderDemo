@@ -18,24 +18,21 @@ public class ImgwAlertMapper {
     public static final int NUMBER_NOT_FOUND = -1;
     private static final String EMPTY_STRING = "";
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm 'dnia' dd.MM.yyyy");
-    public static final LocalDateTime DEFAULT_DATE = LocalDateTime.of(1900, 1, 1, 0, 0);
+    public static final LocalDateTime DEFAULT_EMPTY_DATE = LocalDateTime.of(1900, 1, 1, 0, 0);
     public static final String UNSPECIFIED = "unspecified";
     public static final LocalDateTime DATETIME_NOW = LocalDateTime.now();
 
     public ImgwMeteoWarning toModel(String alertText) {
 
-        String[] alerts = alertText.split(TextPatterns.SPLIT_TEXT);
+        String[] pdfTextSplit = alertText.split(TextPatterns.SPLIT_TEXT);
 
-        if (alerts.length < 2) {
+        if (pdfTextSplit.length < 2) {
             throw new IllegalArgumentException("Problem with splitting text from pdf to fetch specific alerts");
         }
 
-        String headerOfActualAlerts = alerts[0];
-        Voivodeship voivodeship = getVoivodeship(headerOfActualAlerts);
-        int alertNumber = getAlertNumber(headerOfActualAlerts);
-        LocalDateTime alertPublishDate = getAlertPublishDate(headerOfActualAlerts);
+        String headerOfActualAlerts = pdfTextSplit[0];
 
-        String[] textLocalAlerts = Arrays.copyOfRange(alerts, 1, alerts.length);
+        String[] textLocalAlerts = Arrays.copyOfRange(pdfTextSplit, 1, pdfTextSplit.length);
         List<ImgwLocalMeteoWarning> imgwLocalMeteoWarnings = new ArrayList<>();
         Arrays.stream(textLocalAlerts)
                 .forEach(localAlertText -> {
@@ -46,8 +43,8 @@ public class ImgwAlertMapper {
                                     getAlertDegree(localAlertText),
                                     getAlertStatus(localAlertText),
                                     getCounties(localAlertText),
-                                    startAndStopAlertDates.isEmpty() ? DEFAULT_DATE : startAndStopAlertDates.get(0),
-                                    startAndStopAlertDates.size() < 2 ? DEFAULT_DATE : startAndStopAlertDates.get(1),
+                                    startAndStopAlertDates.isEmpty() ? DEFAULT_EMPTY_DATE : startAndStopAlertDates.get(0),
+                                    startAndStopAlertDates.size() < 2 ? DEFAULT_EMPTY_DATE : startAndStopAlertDates.get(1),
                                     getAlertProbability(localAlertText),
                                     getAlertDescription(localAlertText),
                                     getAlertSms(localAlertText)
@@ -56,54 +53,54 @@ public class ImgwAlertMapper {
                 });
 
         return new ImgwMeteoWarning(
-                alertNumber,
-                voivodeship,
-                alertPublishDate,
+                getAlertNumber(headerOfActualAlerts),
+                getVoivodeship(headerOfActualAlerts),
+                getAlertPublishDate(headerOfActualAlerts),
                 imgwLocalMeteoWarnings
         );
     }
 
     private String getAlertSms(String localAlertText) {
-        return findSpecificPattern(localAlertText, TextPatterns.SMS_ANY_TEXT_ENDED_WITH_RSO)
+        return getStringBasedOnSpecificPattern(localAlertText, TextPatterns.SMS_ANY_TEXT_ENDED_WITH_RSO)
                 .orElse(EMPTY_STRING);
     }
 
     private String getAlertDescription(String localAlertText) {
-        return findSpecificPattern(localAlertText, TextPatterns.PRZEBIEG_ANY_TEXT_ENDED_WITH_SMS)
+        return getStringBasedOnSpecificPattern(localAlertText, TextPatterns.PRZEBIEG_ANY_TEXT_ENDED_WITH_SMS)
                 .orElse(EMPTY_STRING);
     }
 
     private String getAlertProbability(String localAlertText) {
-        return findSpecificPattern(localAlertText, TextPatterns.PRAWDOPODOBIENSTWO_WITH_DIGITS_AND_PERCENTAGE)
+        return getStringBasedOnSpecificPattern(localAlertText, TextPatterns.PRAWDOPODOBIENSTWO_WITH_DIGITS_AND_PERCENTAGE)
                 .orElse(EMPTY_STRING);
     }
 
     private AlertStatus getAlertStatus(String localAlertText) {
-        String alertStatusText = findSpecificPattern(localAlertText, TextPatterns.SLASH_DIGIT_SPACE_CAPITAL_LETTERS)
+        String alertStatusText = getStringBasedOnSpecificPattern(localAlertText, TextPatterns.SLASH_DIGIT_SPACE_CAPITAL_LETTERS)
                 .orElse("nowy");
         return AlertStatus.valueOfLabel(alertStatusText.toLowerCase())
                 .orElse(AlertStatus.NEW);
     }
 
     private int getAlertDegree(String localAlertText) {
-        return findSpecificNumber(localAlertText, TextPatterns.SLASH_DIGIT_NEWLINE)
+        return getNumberBasedOdSpecificPattern(localAlertText, TextPatterns.SLASH_DIGIT_NEWLINE)
                 .orElse(NUMBER_NOT_FOUND);
     }
 
     private String getAlertType(String localAlertText) {
-        return findSpecificPattern(localAlertText, TextPatterns.CAPITAL_LETTER_SMALL_LETTERS_SLASH)
+        return getStringBasedOnSpecificPattern(localAlertText, TextPatterns.CAPITAL_LETTER_SMALL_LETTERS_SLASH)
                 .orElse(UNSPECIFIED);
     }
 
     private LocalDateTime getAlertPublishDate(String headerOfActualAlerts) {
-        return findSpecificPattern(headerOfActualAlerts, TextPatterns.ALERT_DATE_PATTERN)
+        return getStringBasedOnSpecificPattern(headerOfActualAlerts, TextPatterns.ALERT_DATE_PATTERN)
                 .filter(this::isValidDate)
                 .map(textDate -> LocalDateTime.parse(textDate, dateFormatter))
                 .orElse(DATETIME_NOW);
     }
 
     private int getAlertNumber(String headerOfActualAlerts) {
-        return findSpecificNumber(headerOfActualAlerts, TextPatterns.ALERT_NUMBER_PATTERN)
+        return getNumberBasedOdSpecificPattern(headerOfActualAlerts, TextPatterns.ALERT_NUMBER_PATTERN)
                 .orElse(NUMBER_NOT_FOUND);
     }
 
@@ -121,7 +118,7 @@ public class ImgwAlertMapper {
         return true;
     }
 
-    private Optional<String> findSpecificPattern(String searchingText, String stringPattern) {
+    private Optional<String> getStringBasedOnSpecificPattern(String searchingText, String stringPattern) {
         Pattern pattern = Pattern.compile(stringPattern);
         return pattern.matcher(searchingText)
                 .results()
@@ -129,7 +126,7 @@ public class ImgwAlertMapper {
                 .findFirst();
     }
 
-    private OptionalInt findSpecificNumber(String headerOfActualAlerts, String stringPattern) {
+    private OptionalInt getNumberBasedOdSpecificPattern(String headerOfActualAlerts, String stringPattern) {
         Pattern pattern = Pattern.compile(stringPattern);
         return pattern.matcher(headerOfActualAlerts)
                 .results()

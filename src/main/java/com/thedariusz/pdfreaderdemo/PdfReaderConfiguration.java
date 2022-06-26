@@ -20,4 +20,9 @@ public class PdfReaderConfiguration {
     public PdfReader pdfBoxReader() {
         return new PdfBoxReader();
     }
+
+    @Bean
+    public ImgwAlertMapper imgwAlertMapper() {
+        return new ImgwAlertMapper();
+    }
 }
