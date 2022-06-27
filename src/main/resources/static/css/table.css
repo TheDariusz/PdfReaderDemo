@@ -56,3 +56,23 @@ div.redTable {
 .divTableHeading { display: table-header-group;}
 .divTableFoot { display: table-footer-group;}
 .divTableBody { display: table-row-group;}
+
+.bold-red {
+    font-weight: bold;
+    color: #A40808;
+}
+
+.bold-orange {
+    font-weight: bold;
+    color: #53380e;
+}
+
+.small {
+    font-weight: lighter;
+    font-size: smaller;
+}
+
+.bold-gray {
+    font-weight: bold;
+    color: #494441;
+}

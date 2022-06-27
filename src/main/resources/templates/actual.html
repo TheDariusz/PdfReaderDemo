@@ -3,6 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="../static/css/table.css"/>
     <meta charset="UTF-8">
     <title>Pdf Demo</title>
     <link rel="stylesheet" th:href="@{/css/table.css}">
@@ -20,7 +21,24 @@
     </div>
     <div class="divTableBody" th:each="alert: ${listOfAlerts}">
         <div class="divTableRow">
-            <div class="divTableCell" th:text="${alert.number}">cell1_1</div>
+            <div class="divTableCell">
+                <span th:text="'Alert number '+ ${alert.number} + ' for '"></span>
+                <p class="bold-orange" th:text="${alert.voivodeship.label}"></p>
+                <span th:text="'published '+ ${alert.published}"></span>
+            </div>
+            <div class="divTableCell" th:each="localAlert: ${alert.localMeteoWarnings}">
+                <p class="bold-red" th:text="${localAlert.type}"></p>
+                <p class="bold-gray" th:unless="${#strings.toString(localAlert.alertStatus) == 'NEW'}">
+                    <span th:text="'('+ ${localAlert.alertStatus} + ')'"></span>
+                </p>
+                <span th:text="'Start:' + ${localAlert.start} + ', Stop:' + ${localAlert.stop}"></span>
+                <p th:text="'Probability ' + ${localAlert.probability}"></p>
+                <p th:text="${localAlert.description}"></p>
+                <span>List of counties: </span>
+                <span class="small" th:each="county: ${localAlert.counties}">
+                    <span th:text="${county.key}"></span>
+                </span>
+            </div>
         </div>
     </div>
 </div>
