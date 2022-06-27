@@ -1,5 +1,8 @@
 package com.thedariusz.pdfreaderdemo.model;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public enum Voivodeship {
     DS("dolnośląskie"),
     KP("kujawsko-pomorskie"),
@@ -16,7 +19,8 @@ public enum Voivodeship {
     SK("świętokrzyskie"),
     WN("warmińsko-mazurskie"),
     WP("wielkopolskie"),
-    ZP("zachodniopomorskie");
+    ZP("zachodniopomorskie"),
+    UNDEFINED("undefined");
 
     public final String label;
 
@@ -24,13 +28,10 @@ public enum Voivodeship {
         this.label = label;
     }
 
-    public static Voivodeship isInString(String text) {
+    public static Optional<Voivodeship> isInString(String text) {
         String textToLowerCase = text.toLowerCase();
-        for (Voivodeship voivodeship : values()) {
-            if (textToLowerCase.contains(voivodeship.label)) {
-                return voivodeship;
-            }
-        }
-        return null;
+        return Arrays.stream(values())
+                .filter(voivodeship -> textToLowerCase.contains(voivodeship.label))
+                .findFirst();
     }
 }
