@@ -15,6 +15,7 @@ import java.util.*;
 @RequestMapping("/alerts")
 public class PdfController {
 
+    public static final List<Object> EMPTY_LIST = List.of();
     private final ImgwPdfService imgwPdfService;
     private final ImgwAlertMapper imgwAlertMapper;
 
@@ -34,7 +35,7 @@ public class PdfController {
             modelMap.put("listOfAlerts", imgwMeteoWarnings);
 
         } catch (IOException e) {
-            modelMap.put("listOfAlerts", List.of());
+            modelMap.put("listOfAlerts", EMPTY_LIST);
         }
 
         return new ModelAndView("actual", modelMap);
