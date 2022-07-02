@@ -2,7 +2,7 @@ package com.thedariusz.pdfreaderdemo.api;
 
 import com.thedariusz.pdfreaderdemo.ImgwAlertMapper;
 import com.thedariusz.pdfreaderdemo.ImgwPdfService;
-import com.thedariusz.pdfreaderdemo.model.ImgwMeteoWarning;
+import com.thedariusz.pdfreaderdemo.model.ImgwMeteoAlert;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,10 +29,10 @@ public class PdfController {
         Map<String, Object> modelMap = new HashMap<>();
         try {
             List<String> actualListOfAlerts = imgwPdfService.getActualListOfAlerts();
-            List<ImgwMeteoWarning> imgwMeteoWarnings = actualListOfAlerts.stream()
+            List<ImgwMeteoAlert> imgwMeteoAlerts = actualListOfAlerts.stream()
                     .map(imgwAlertMapper::toModel)
                     .toList();
-            modelMap.put("listOfAlerts", imgwMeteoWarnings);
+            modelMap.put("listOfAlerts", imgwMeteoAlerts);
 
         } catch (IOException e) {
             modelMap.put("listOfAlerts", EMPTY_LIST);

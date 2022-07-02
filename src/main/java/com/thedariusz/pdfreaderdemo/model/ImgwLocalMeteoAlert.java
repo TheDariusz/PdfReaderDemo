@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 
-public record ImgwLocalMeteoWarning(
+public record ImgwLocalMeteoAlert(
         String type,
         int degree,
         AlertStatus alertStatus,
