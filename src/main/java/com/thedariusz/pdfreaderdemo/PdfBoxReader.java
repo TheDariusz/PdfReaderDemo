@@ -20,7 +20,9 @@ public class PdfBoxReader implements PdfReader {
     public String getText(InputStream inputStream) throws IOException {
         PDDocument pdDocument = PDDocument.load(inputStream);
         PDFTextStripper pdfStripper = new PDFTextStripper();
-        return pdfStripper.getText(pdDocument);
+        String pdfStripperText = pdfStripper.getText(pdDocument);
+        pdDocument.close();
+        return pdfStripperText;
     }
 
     @Override
@@ -38,6 +40,7 @@ public class PdfBoxReader implements PdfReader {
                 }
             }
         }
+        pdDocument.close();
         return images;
     }
 
