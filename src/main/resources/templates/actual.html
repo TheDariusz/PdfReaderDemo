@@ -27,7 +27,7 @@
                 <span th:text="'published '+ ${alert.published}"></span>
             </div>
             <div class="divTableCell" th:each="localAlert: ${alert.localMeteoWarnings}">
-                <p class="bold-red" th:text="${localAlert.type}"></p>
+                <p class="bold-red" th:text="${localAlert.type} + ' (' + ${localAlert.degree} + '°)'"></p>
                 <p class="bold-gray" th:unless="${#strings.toString(localAlert.alertStatus) == 'NEW'}">
                     <span th:text="'('+ ${localAlert.alertStatus} + ')'"></span>
                 </p>
