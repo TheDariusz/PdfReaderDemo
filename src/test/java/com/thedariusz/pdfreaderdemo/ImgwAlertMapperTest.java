@@ -109,99 +109,57 @@ class ImgwAlertMapperTest {
 
     private final static String sampleAlert2 = """
             Zasięg ostrzeżeń w województwie
-            WOJEWÓDZTWO MAZOWIECKIE
-            OSTRZEŻENIA METEOROLOGICZNE ZBIORCZO NR 125
+            WOJEWÓDZTWO ŚWIĘTOKRZYSKIE
+            OSTRZEŻENIA METEOROLOGICZNE ZBIORCZO NR 98
             WYKAZ OBOWIĄZUJĄCYCH OSTRZEŻEŃ
             o godz. 05:42 dnia 02.07.2022
             Zjawisko/Stopień zagrożenia Burze z gradem/2 ODWOŁANIE
             Obszar (w nawiasie numer
             ostrzeżenia dla powiatu)
-            powiaty: gostyniński(49), Płock(48), płocki(49), sierpecki(47)
+            powiaty: buski(65), jędrzejowski(64), kazimierski(64), Kielce(69), kielecki(69), konecki(66),
+            pińczowski(65), włoszczowski(65)
             Czas odwołania godz. 05:15 dnia 02.07.2022
             Przyczyna Zjawisko zakończyło się
-            SMS IMGW-PIB INFORMUJE: BURZE Z GRADEM/- mazowieckie (4 powiaty) 05:15/02.07.2022
-            ZJAWISKO ZAKOŃCZYŁO SIĘ. Dotyczy powiatów: gostyniński, Płock, płocki i sierpecki.
-            RSO Woj. mazowieckie (0 powiatów), IMGW-PIB odwołał ostrzeżenie drugiego stopnia o burzach
+            SMS IMGW-PIB INFORMUJE: BURZE Z GRADEM/- świętokrzyskie (8 powiatów)
+            05:15/02.07.2022 ZJAWISKO ZAKOŃCZYŁO SIĘ. Dotyczy powiatów: buski, jędrzejowski,
+            kazimierski, Kielce, kielecki, konecki, pińczowski i włoszczowski.
+            RSO Woj. świętokrzyskie (0 powiatów), IMGW-PIB odwołał ostrzeżenie drugiego stopnia o burzach
             z gradem
             Uwagi Brak
-            Zjawisko/Stopień zagrożenia Burze z gradem/1
-            Obszar (w nawiasie numer
-            ostrzeżenia dla powiatu)
-            powiaty: łosicki(51), ostrołęcki(52), Ostrołęka(51), ostrowski(54), Siedlce(53), siedlecki(53),
-            sokołowski(56), węgrowski(55)
-            Ważność od godz. 08:00 dnia 02.07.2022 do godz. 18:00 dnia 02.07.2022
-            Prawdopodobieństwo 80%
-            Przebieg Prognozowane są burze, którym miejscami będą towarzyszyć silne opady deszczu od 20 mm do
-            30 mm oraz porywy wiatru do 85 km/h. Miejscami grad.
-            Instytut Meteorologii i Gospodarki Wodnej - Państwowy Instytut Badawczy
-            Centralne Biuro Prognoz Meteorologicznych - Wydział w Warszawie
-            01-673 Warszawa ul. Podleśna 61
-            tel: 22 5694151, kom. 781774153, fax: 022-5694151
-            email: meteo.warszawa@imgw.pl
-            www: www.imgw.pl
-            strona 1 z 3
-            SMS IMGW-PIB OSTRZEGA: BURZE Z GRADEM/1 mazowieckie (8 powiatów) od 08:00/02.07 do
-            18:00/02.07.2022 deszcz 30 mm, grad, porywy 85 km/h. Dotyczy powiatów: łosicki, ostrołęcki,
-            Ostrołęka, ostrowski, Siedlce, siedlecki, sokołowski i węgrowski.
-            RSO Woj. mazowieckie (8 powiatów), IMGW-PIB wydał ostrzeżenie pierwszego stopnia o burzach
-            z gradem
-            Uwagi Brak.
             Zjawisko/Stopień zagrożenia Burze z gradem/1 ZMIANA
             Obszar (w nawiasie numer
             ostrzeżenia dla powiatu)
-            powiaty: białobrzeski(55), grodziski(53), grójecki(55), lipski(55), płoński(46), przysuski(56),
-            Radom(56), radomski(56), sochaczewski(46), szydłowiecki(57), zwoleński(56), żyrardowski(55)
+            powiaty: opatowski(65), ostrowiecki(65), sandomierski(65), skarżyski(67), starachowicki(67),
+            staszowski(64)
             Ważność od godz. 04:52 dnia 02.07.2022 do godz. 08:00 dnia 02.07.2022
             Prawdopodobieństwo 75%
             Przebieg Prognozowane są burze, którym miejscami będą towarzyszyć silne opady deszczu do 25 mm oraz
             porywy wiatru do 70 km/h. Miejscami grad.
-            SMS IMGW-PIB OSTRZEGA: BURZE Z GRADEM/1 mazowieckie (12 powiatów) od 04:52/02.07
-            do 08:00/02.07.2022 deszcz 25 mm, grad, porywy 70 km/h. Dotyczy powiatów: białobrzeski,
-            grodziski, grójecki, lipski, płoński, przysuski, Radom, radomski, sochaczewski, szydłowiecki,
-            zwoleński i żyrardowski.
-            RSO Woj. mazowieckie (12 powiatów), IMGW-PIB wydał ostrzeżenie pierwszego stopnia o burzach
+            Instytut Meteorologii i Gospodarki Wodnej - Państwowy Instytut Badawczy
+            Biuro Prognoz Meteorologicznych w Krakowie
+            30-215 Kraków ul. Piotra Borowego 14
+            tel: 12-6398150, fax: 12-4251973
+            email: meteo.krakow@imgw.pl
+            www: www.imgw.pl
+            strona 1 z 2
+            SMS IMGW-PIB OSTRZEGA: BURZE Z GRADEM/1 świętokrzyskie (6 powiatów) od 04:52/02.07
+            do 08:00/02.07.2022 deszcz 25 mm, grad, porywy 70 km/h. Dotyczy powiatów: opatowski,
+            ostrowiecki, sandomierski, skarżyski, starachowicki i staszowski.
+            RSO Woj. świętokrzyskie (6 powiatów), IMGW-PIB wydał ostrzeżenie pierwszego stopnia o burzach
             z gradem
             Uwagi Wydłużenie ważności, obniżenie stopnia zagrożenia.
-            Zjawisko/Stopień zagrożenia Burze z gradem/2
-            Obszar (w nawiasie numer
-            ostrzeżenia dla powiatu)
-            powiaty: ciechanowski(46), garwoliński(55), kozienicki(55), legionowski(53), łosicki(50),
-            makowski(48), miński(53), mławski(47), nowodworski(52), ostrołęcki(51), Ostrołęka(50),
-            ostrowski(53), otwocki(52), piaseczyński(52), pruszkowski(51), przasnyski(49), pułtuski(51),
-            Siedlce(52), siedlecki(52), sokołowski(55), Warszawa(51), warszawski zachodni(50),
-            węgrowski(54), wołomiński(54), wyszkowski(51), żuromiński(47)
-            Ważność od godz. 21:00 dnia 01.07.2022 do godz. 08:00 dnia 02.07.2022
-            Prawdopodobieństwo 75%
-            Przebieg Prognozowane są burze, którym miejscami będą towarzyszyć silne opady deszczu do 30 mm,
-            lokalnie do 45 mm, oraz porywy wiatru do 90 km/h, lokalnie do 100 km/h. Miejscami grad.
-            SMS IMGW-PIB OSTRZEGA: BURZE Z GRADEM/2 mazowieckie (26 powiatów) od 21:00/01.07
-            do 08:00/02.07.2022 deszcz 45 mm, grad, porywy 90-100 km/h. Dotyczy powiatów:
-            ciechanowski, garwoliński, kozienicki, legionowski, łosicki, makowski, miński, mławski,
-            nowodworski, ostrołęcki, Ostrołęka, ostrowski, otwocki, piaseczyński, pruszkowski, przasnyski,
-            pułtuski, Siedlce, siedlecki, sokołowski, Warszawa, warszawski zachodni, węgrowski,
-            wołomiński, wyszkowski i żuromiński.
-            Instytut Meteorologii i Gospodarki Wodnej - Państwowy Instytut Badawczy
-            Centralne Biuro Prognoz Meteorologicznych - Wydział w Warszawie
-            01-673 Warszawa ul. Podleśna 61
-            tel: 22 5694151, kom. 781774153, fax: 022-5694151
-            email: meteo.warszawa@imgw.pl
-            www: www.imgw.pl
-            strona 2 z 3
-            RSO Woj. mazowieckie (26 powiatów), IMGW-PIB wydał ostrzeżenie drugiego stopnia o burzach
-            z gradem
-            Uwagi Brak.
               Opracowanie niniejsze i jego format, jako przedmiot prawa autorskiego podlega ochronie prawnej, zgodnie z przepisami ustawy
             z dnia 4 lutego 1994r o prawie autorskim i prawach pokrewnych (dz. U. z 2006 r. Nr 90, poz. 631 z późn. zm.).
               Wszelkie dalsze udostępnianie, rozpowszechnianie (przedruk, kopiowanie, wiadomość sms) jest dozwolone wyłącznie w formie
             dosłownej z bezwzględnym wskazaniem źródła informacji tj. IMGW-PIB.
             Instytut Meteorologii i Gospodarki Wodnej - Państwowy Instytut Badawczy
-            Centralne Biuro Prognoz Meteorologicznych - Wydział w Warszawie
-            01-673 Warszawa ul. Podleśna 61
-            tel: 22 5694151, kom. 781774153, fax: 022-5694151
-            email: meteo.warszawa@imgw.pl
+            Biuro Prognoz Meteorologicznych w Krakowie
+            30-215 Kraków ul. Piotra Borowego 14
+            tel: 12-6398150, fax: 12-4251973
+            email: meteo.krakow@imgw.pl
             www: www.imgw.pl
-            strona 3 z 3
-            """;
+            strona 2 z 2
+                        """;
 
     @Test
     void checkingModelMapping() {
