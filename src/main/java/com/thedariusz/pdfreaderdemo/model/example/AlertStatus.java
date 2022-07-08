@@ -20,7 +20,7 @@ public class AlertStatus implements ExtractableText {
     public final Status status;
     
     public AlertStatus(String text) {
-        this.rawStatus = extract(ALERT_STATUS_PATTERN, text);
+        this.rawStatus = extractText(ALERT_STATUS_PATTERN, text);
         this.status = value(rawStatus);
     }
 

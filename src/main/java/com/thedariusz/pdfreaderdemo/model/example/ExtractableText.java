@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 public interface ExtractableText {
     String NOT_FOUND = "";
     
-    default String extract(Pattern pattern, String rawText) {
+    default String extractText(Pattern pattern, String rawText) {
         return pattern.matcher(rawText)
                 .results()
                 .map(matchResult -> matchResult.group(1))

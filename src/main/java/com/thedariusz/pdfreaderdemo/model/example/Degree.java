@@ -8,6 +8,6 @@ public class Degree implements ExtractableNumber {
     public final int value;
     
     public Degree(String rawText) {
-        this.value = extract(ALERT_DEGREE_PATTERN, rawText);
+        this.value = extractNumber(ALERT_DEGREE_PATTERN, rawText);
     }
 }

@@ -1,11 +1,5 @@
 package com.thedariusz.pdfreaderdemo;
 
-import com.thedariusz.pdfreaderdemo.model.ImgwMeteoAlert;
-import com.thedariusz.pdfreaderdemo.model.Voivodeship;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class ImgwAlertMapperTest {
 
     private final static String sampleAlert = """

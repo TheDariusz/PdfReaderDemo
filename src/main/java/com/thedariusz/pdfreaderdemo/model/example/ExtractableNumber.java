@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 public interface ExtractableNumber {
     int NOT_FOUND = -1;
     
-    default int extract(Pattern pattern, String rawText) {
+    default int extractNumber(Pattern pattern, String rawText) {
         return pattern.matcher(rawText)
                 .results()
                 .map(matchResult -> matchResult.group(1))
