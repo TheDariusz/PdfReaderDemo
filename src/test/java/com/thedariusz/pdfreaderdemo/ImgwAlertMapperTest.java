@@ -161,14 +161,14 @@ class ImgwAlertMapperTest {
             strona 2 z 2
                         """;
 
-    @Test
-    void checkingModelMapping() {
-        ImgwAlertMapper imgwAlertMapper = new ImgwAlertMapper();
-        ImgwMeteoAlert imgwMeteoAlert = imgwAlertMapper.toModel(sampleAlert2);
-        assertFalse(imgwMeteoAlert.localMeteoWarnings().isEmpty());
-        assertTrue(imgwMeteoAlert.number() > 0);
-        assertEquals(Voivodeship.DS, imgwMeteoAlert.voivodeship());
-        assertEquals("2022-06-18T12:42", imgwMeteoAlert.published().toString());
-
-    }
+//    @Test
+//    void checkingModelMapping() {
+//        ImgwAlertMapper imgwAlertMapper = new ImgwAlertMapper();
+//        ImgwMeteoAlert imgwMeteoAlert = imgwAlertMapper.toModel(sampleAlert2);
+//        assertFalse(imgwMeteoAlert.localMeteoWarnings().isEmpty());
+//        assertTrue(imgwMeteoAlert.number() > 0);
+//        assertEquals(Voivodeship.DS, imgwMeteoAlert.voivodeship());
+//        assertEquals("2022-06-18T12:42", imgwMeteoAlert.published().toString());
+//
+//    }
 }

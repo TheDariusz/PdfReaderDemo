@@ -1,6 +1,5 @@
 package com.thedariusz.pdfreaderdemo.api;
 
-import com.thedariusz.pdfreaderdemo.ImgwAlertMapper;
 import com.thedariusz.pdfreaderdemo.ImgwPdfService;
 import com.thedariusz.pdfreaderdemo.model.ImgwMeteoAlert;
 import org.springframework.stereotype.Controller;
@@ -8,35 +7,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/alerts")
 public class PdfController {
 
-    public static final List<Object> EMPTY_LIST = List.of();
     private final ImgwPdfService imgwPdfService;
-    private final ImgwAlertMapper imgwAlertMapper;
 
-    public PdfController(ImgwPdfService imgwPdfService, ImgwAlertMapper imgwAlertMapper) {
+    public PdfController(ImgwPdfService imgwPdfService) {
         this.imgwPdfService = imgwPdfService;
-        this.imgwAlertMapper = imgwAlertMapper;
     }
 
     @GetMapping("/actual")
     public ModelAndView getActualAlerts() {
         Map<String, Object> modelMap = new HashMap<>();
-        try {
-            List<String> actualListOfAlerts = imgwPdfService.getActualListOfAlerts();
-            List<ImgwMeteoAlert> imgwMeteoAlerts = actualListOfAlerts.stream()
-                    .map(imgwAlertMapper::toModel)
-                    .toList();
-            modelMap.put("listOfAlerts", imgwMeteoAlerts);
-
-        } catch (IOException e) {
-            modelMap.put("listOfAlerts", EMPTY_LIST);
-        }
+        List<String> textAlerts = imgwPdfService.fetchTextAlerts();
+        List<ImgwMeteoAlert> imgwMeteoAlerts = textAlerts.stream()
+                .map(ImgwMeteoAlert::fromText)
+                .toList();
+        modelMap.put("listOfAlerts", imgwMeteoAlerts);
 
         return new ModelAndView("actual", modelMap);
     }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PdfReader {
 
-    String getText(InputStream inputStream) throws IOException;
+    String extractContentAsText(InputStream inputStream) throws IOException;
 
     List<BufferedImage> getImages(InputStream inputStream) throws IOException;
 }
