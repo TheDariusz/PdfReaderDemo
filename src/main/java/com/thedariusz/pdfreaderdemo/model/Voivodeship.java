@@ -1,7 +1,6 @@
 package com.thedariusz.pdfreaderdemo.model;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 public enum Voivodeship {
     DS("dolnośląskie"),
@@ -28,10 +27,11 @@ public enum Voivodeship {
         this.label = label;
     }
 
-    public static Optional<Voivodeship> isInString(String text) {
-        String textToLowerCase = text.toLowerCase();
+    public static Voivodeship fromText(String text) {
         return Arrays.stream(values())
-                .filter(voivodeship -> textToLowerCase.contains(voivodeship.label))
-                .findFirst();
+                .filter(value -> text.toLowerCase().contains(value.label))
+                .findFirst()
+                .orElse(Voivodeship.UNDEFINED);
     }
+
 }

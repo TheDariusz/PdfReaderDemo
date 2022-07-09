@@ -1,11 +1,5 @@
 package com.thedariusz.pdfreaderdemo;
 
-import com.thedariusz.pdfreaderdemo.model.ImgwMeteoAlert;
-import com.thedariusz.pdfreaderdemo.model.Voivodeship;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class ImgwAlertMapperTest {
 
     private final static String sampleAlert = """
@@ -161,14 +155,14 @@ class ImgwAlertMapperTest {
             strona 2 z 2
                         """;
 
-    @Test
-    void checkingModelMapping() {
-        ImgwAlertMapper imgwAlertMapper = new ImgwAlertMapper();
-        ImgwMeteoAlert imgwMeteoAlert = imgwAlertMapper.toModel(sampleAlert2);
-        assertFalse(imgwMeteoAlert.localMeteoWarnings().isEmpty());
-        assertTrue(imgwMeteoAlert.number() > 0);
-        assertEquals(Voivodeship.DS, imgwMeteoAlert.voivodeship());
-        assertEquals("2022-06-18T12:42", imgwMeteoAlert.published().toString());
-
-    }
+//    @Test
+//    void checkingModelMapping() {
+//        ImgwAlertMapper imgwAlertMapper = new ImgwAlertMapper();
+//        ImgwMeteoAlert imgwMeteoAlert = imgwAlertMapper.toModel(sampleAlert2);
+//        assertFalse(imgwMeteoAlert.localMeteoWarnings().isEmpty());
+//        assertTrue(imgwMeteoAlert.number() > 0);
+//        assertEquals(Voivodeship.DS, imgwMeteoAlert.voivodeship());
+//        assertEquals("2022-06-18T12:42", imgwMeteoAlert.published().toString());
+//
+//    }
 }

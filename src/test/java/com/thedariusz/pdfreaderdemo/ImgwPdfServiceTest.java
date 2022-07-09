@@ -3,6 +3,7 @@ package com.thedariusz.pdfreaderdemo;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,7 +21,7 @@ class ImgwPdfServiceTest {
 
     @Test
     void shouldReturnNonZeroListOfTextAlerts() throws IOException {
-        List<String> actualListOfAlerts = imgwPdfService.getActualListOfAlerts();
+        List<String> actualListOfAlerts = imgwPdfService.fetchTextAlerts();
         assertTrue(actualListOfAlerts.size() > 0);
     }
 

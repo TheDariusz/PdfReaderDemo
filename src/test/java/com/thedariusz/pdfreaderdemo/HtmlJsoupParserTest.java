@@ -13,7 +13,7 @@ class HtmlJsoupParserTest {
 
     @Test
     void shouldReturnNonEmptyList() throws IOException {
-        List<String> pdfs = htmlJsoupParser.getFilenamesWithPatternFromBaseurl(CURRENT_ALERTS_IMGW_URL, "pdf");
+        List<String> pdfs = htmlJsoupParser.getPdfFileNameList(CURRENT_ALERTS_IMGW_URL);
         assertTrue(pdfs.size() > 0);
         pdfs.forEach(System.out::println);
     }

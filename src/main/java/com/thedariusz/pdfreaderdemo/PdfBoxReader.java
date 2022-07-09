@@ -17,7 +17,7 @@ import java.util.List;
 public class PdfBoxReader implements PdfReader {
 
     @Override
-    public String getText(InputStream inputStream) throws IOException {
+    public String extractContentAsText(InputStream inputStream) throws IOException {
         PDDocument pdDocument = PDDocument.load(inputStream);
         PDFTextStripper pdfStripper = new PDFTextStripper();
         String pdfStripperText = pdfStripper.getText(pdDocument);

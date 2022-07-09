@@ -1,10 +1,8 @@
 package com.thedariusz.pdfreaderdemo;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.net.ssl.HttpsURLConnection;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,7 +41,7 @@ class PdfBoxReaderTest {
     void shouldReturnTextOfWarning() throws IOException {
         String fileName = "SLW_STAN_20220607205925816.pdf";
 
-        String actual = reader.getText(inputStream);
+        String actual = reader.extractContentAsText(inputStream);
         assertThat(actual).contains("Burze z gradem/1");
 
     }
