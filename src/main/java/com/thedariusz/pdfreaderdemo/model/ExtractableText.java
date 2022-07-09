@@ -1,17 +1,15 @@
-package com.thedariusz.pdfreaderdemo.model.example;
+package com.thedariusz.pdfreaderdemo.model;
 
 import java.util.regex.Pattern;
 
-public interface ExtractableNumber {
-    int NOT_FOUND = -1;
+public interface ExtractableText {
+    String NOT_FOUND = "";
     
-    default int extractNumber(Pattern pattern, String rawText) {
+    default String extractText(Pattern pattern, String rawText) {
         return pattern.matcher(rawText)
                 .results()
                 .map(matchResult -> matchResult.group(1))
-                .map(Integer::parseInt)
                 .findFirst()
                 .orElse(NOT_FOUND);
     }
-    
 }

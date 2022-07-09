@@ -1,18 +1,18 @@
-package com.thedariusz.pdfreaderdemo.model.example;
+package com.thedariusz.pdfreaderdemo.model;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
 public class AlertStatus implements ExtractableText {
-    private static final Pattern ALERT_STATUS_PATTERN = Pattern.compile("\\/\\d\\s([A-ZĄĆĘŁŃÓŚÓŻŹ]+)");
+    private static final Pattern ALERT_STATUS_PATTERN = Pattern.compile("\\/\\d\\s([A-ZĄĆĘŁŃÓŚŻŹ]+)");
 
     public enum Status {
         NEW("nowy"), CHANGE("zmiana"), CANCEL("odwołanie");
 
-        public final String status;
+        public final String value;
 
-        Status(String status) {
-            this.status = status;
+        Status(String value) {
+            this.value = value;
         }
     }
     
@@ -26,7 +26,7 @@ public class AlertStatus implements ExtractableText {
 
     private static Status value(String status) {
         return Arrays.stream(Status.values())
-                .filter(alertStatus -> alertStatus.status.equals(status))
+                .filter(alertStatus -> alertStatus.value.equals(status))
                 .findFirst()
                 .orElse(Status.NEW);
     }

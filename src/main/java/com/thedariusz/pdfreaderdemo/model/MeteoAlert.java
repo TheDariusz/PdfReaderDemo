@@ -1,9 +1,5 @@
 package com.thedariusz.pdfreaderdemo.model;
 
-import com.thedariusz.pdfreaderdemo.model.example.ExtractableDate;
-import com.thedariusz.pdfreaderdemo.model.example.ExtractableNumber;
-import com.thedariusz.pdfreaderdemo.model.example.ExtractableText;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +19,7 @@ public class MeteoAlert implements ExtractableText, ExtractableNumber, Extractab
     public final List<LocalAlert> localMeteoWarnings;
 
     public MeteoAlert(String text) {
-        String[] pdfAlertSections = text.split(ALERT_TYPE_SPLITTER);
+        String[] pdfAlertSections = text.split(ALERT_TYPE_SPLITTER, Pattern.CANON_EQ);
         if (pdfAlertSections.length < 2) {
             throw new IllegalArgumentException("Problem with splitting text from pdf to fetch specific alerts");
         }

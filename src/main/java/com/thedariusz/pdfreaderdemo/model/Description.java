@@ -1,4 +1,4 @@
-package com.thedariusz.pdfreaderdemo.model.example;
+package com.thedariusz.pdfreaderdemo.model;
 
 import java.util.regex.Pattern;
 

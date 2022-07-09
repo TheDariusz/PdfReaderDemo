@@ -1,14 +1,5 @@
 package com.thedariusz.pdfreaderdemo.model;
 
-import com.thedariusz.pdfreaderdemo.model.example.AlertStatus;
-import com.thedariusz.pdfreaderdemo.model.example.AlertTime;
-import com.thedariusz.pdfreaderdemo.model.example.AlertType;
-import com.thedariusz.pdfreaderdemo.model.example.Counties;
-import com.thedariusz.pdfreaderdemo.model.example.Degree;
-import com.thedariusz.pdfreaderdemo.model.example.Description;
-import com.thedariusz.pdfreaderdemo.model.example.Probability;
-import com.thedariusz.pdfreaderdemo.model.example.Sms;
-
 import java.time.LocalDateTime;
 import java.util.Map;
 

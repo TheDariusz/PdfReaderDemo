@@ -1,4 +1,4 @@
-package com.thedariusz.pdfreaderdemo.model.example;
+package com.thedariusz.pdfreaderdemo.model;
 
 import java.util.Map;
 import java.util.regex.MatchResult;
@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Counties {
-    private static final Pattern ALERT_COUNTIES = Pattern.compile("([A-ZĄĆĘŁŃÓŚÓŻŹa-ząćęłńóśóżź][A-ZĄĆĘŁŃÓŚÓŻŹa-ząćęłńóśóżź \\-]+)\\((\\d+)\\)");
+    private static final Pattern ALERT_COUNTIES = Pattern.compile("([A-ZĄĆĘŁŃÓŚŻŹa-ząćęłńóśżź][A-ZĄĆĘŁŃÓŚŻŹa-ząćęłńóśżź \\-]+)\\((\\d+)\\)");
 
     public final Map<String, Integer> value;
     
