@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+hide circle
+skinparam linetype ortho
+
+entity "MeteoAlertEntity" as m01 {
+    * id: long <<generate-id>>
+    * number: long
+    * voivodeship_id: long
+    * published_at: DateTime
+    * local_meteo_alert_id: long
+
+}
+
+entity "LocalAlertEntity" as l01 {
+    * id: long <<generate-id>>
+    * type: text
+    * status: text
+    * counties_id: long
+    * start_date: timestamp
+      stop_date: timestamp
+    * description: text
+    * degree: int
+    * sms: text
+
+}
+
+m01 ||--|{ l01
+
+@enduml
