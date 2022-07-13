@@ -1,23 +1,37 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-hide circle
-skinparam linetype ortho
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
 
-entity "MeteoAlertEntity" as m01 {
-    * id: long <<generate-id>>
+hide circle
+left to right direction
+skinparam roundcorner 5
+skinparam linetype ortho
+skinparam shadowing true
+skinparam handwritten false
+skinparam class {
+    BackgroundColor white
+    ArrowColor #2688d4
+    BorderColor #2688d4
+}
+
+table(MeteoAlertEntity) {
+    * primary_key(id): UUID
+    * foreign_key(voivodeship_id): long
     * number: long
-    * voivodeship_id: long
     * published_at: DateTime
     * local_meteo_alert_id: long
 
 }
 
-entity "LocalAlertEntity" as l01 {
-    * id: long <<generate-id>>
-    * type: text
-    * status: text
-    * counties_id: long
+table("LocalAlertEntity"){
+    * primary_key(id): UUID
+    * foreign_key(type_id): long
+    * foreign_key(status_id): long
+    * foreign_key(counties_id): long
     * start_date: timestamp
       stop_date: timestamp
     * description: text
@@ -26,6 +40,38 @@ entity "LocalAlertEntity" as l01 {
 
 }
 
-m01 ||--|{ l01
+table("VoivodeshipEntity"){
+    * primary_key(id): UUID
+    * label: text
+    * code: text
+
+}
+
+table("AlertStatusEntity") {
+    * primary_key(id): UUID
+    * status: text
+
+}
+
+table("AlertTypeEntity") {
+    * primary_key(id): UUID
+    * type: text
+}
+
+table("CountyEntity") {
+    * primary_key(id): UUID
+    * name: text
+    * teryt_id: text
+    * voivodeship_id: long
+
+}
+
+MeteoAlertEntity ||--|{ LocalAlertEntity
+VoivodeshipEntity ||--|{ MeteoAlertEntity
+VoivodeshipEntity ||--|{ CountyEntity
+LocalAlertEntity }|--|| AlertStatusEntity
+LocalAlertEntity }|--|| AlertTypeEntity
+LocalAlertEntity ||--|{ CountyEntity
+
 
 @enduml
