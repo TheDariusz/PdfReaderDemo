@@ -18,20 +18,19 @@ skinparam class {
     BorderColor #2688d4
 }
 
-table(MeteoAlertEntity) {
+table(MeteoAlert) {
     * primary_key(id): UUID
-    * foreign_key(voivodeship_id): long
-    * number: long
+    * foreign_key(voivodeship_id): BIGINT
+    * alert_number: long
     * published_at: DateTime
-    * local_meteo_alert_id: long
-
 }
 
-table("LocalAlertEntity"){
+table("LocalAlert"){
     * primary_key(id): UUID
-    * foreign_key(type_id): long
-    * foreign_key(status_id): long
-    * foreign_key(counties_id): long
+    * foreign_key(meteo_alert_id): BIGINT
+    * foreign_key(type_id): BIGINT
+    * foreign_key(status_id): BIGINT
+    * foreign_key(county_id): BIGINT
     * start_date: timestamp
       stop_date: timestamp
     * description: text
@@ -40,38 +39,46 @@ table("LocalAlertEntity"){
 
 }
 
-table("VoivodeshipEntity"){
+table("Voivodeship"){
     * primary_key(id): UUID
-    * label: text
+    * name: text
     * code: text
 
 }
 
-table("AlertStatusEntity") {
+table("AlertStatus") {
     * primary_key(id): UUID
     * status: text
 
 }
 
-table("AlertTypeEntity") {
+table("AlertType") {
     * primary_key(id): UUID
     * type: text
 }
 
-table("CountyEntity") {
+table("County") {
     * primary_key(id): UUID
+    * foreign_key(local_meteo_alert_id): BIGINT
     * name: text
     * teryt_id: text
     * voivodeship_id: long
 
 }
 
-MeteoAlertEntity ||--|{ LocalAlertEntity
-VoivodeshipEntity ||--|{ MeteoAlertEntity
-VoivodeshipEntity ||--|{ CountyEntity
-LocalAlertEntity }|--|| AlertStatusEntity
-LocalAlertEntity }|--|| AlertTypeEntity
-LocalAlertEntity ||--|{ CountyEntity
+table(LocalAlert_County) {
+    * foreign_key(local_meteo_alert_id): BIGINT
+    * foreign_key(county_id): BIGINT
+}
+
+MeteoAlert ||--|{ LocalAlert
+Voivodeship ||--|{ MeteoAlert
+Voivodeship ||--|{ County
+LocalAlert }|--|| AlertStatus
+LocalAlert }|--|| AlertType
+County }|--|| LocalAlert_County
+LocalAlert }|--|| LocalAlert_County
+
 
 
 @enduml
