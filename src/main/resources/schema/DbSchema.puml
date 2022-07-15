@@ -60,9 +60,9 @@ table("AlertType") {
 table("County") {
     * primary_key(id): UUID
     * foreign_key(local_meteo_alert_id): BIGINT
+    * foreign_key(voivodeship_id): long
     * name: text
     * teryt_id: text
-    * voivodeship_id: long
 
 }
 
