@@ -22,10 +22,8 @@ class AlertRepositoryIT {
         voivodeship.setCode("MZW");
         voivodeship.setName("Masovia");
 
-        AlertEntity alertEntity = new AlertEntity();
-        alertEntity.setAlertNumber(12345);
-        alertEntity.setVoivodeship(voivodeship);
-        alertEntity.setPublishedDate(LocalDateTime.now());
+        AlertEntity alertEntity = new AlertEntity(123, LocalDateTime.now(), null);
+
 
         alertRepository.save(alertEntity);
     }

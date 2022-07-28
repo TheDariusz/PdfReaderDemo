@@ -21,6 +21,12 @@ public class AlertEntity {
     @JoinColumn(name = "voivodeship_id", referencedColumnName = "id")
     private VoivodeshipEntity voivodeship;
 
+    public AlertEntity(int alertNumber, LocalDateTime publishedDate, VoivodeshipEntity toVoivodeshipEntity) {
+        this.alertNumber = alertNumber;
+        this.publishedDate = publishedDate;
+        this.voivodeship = toVoivodeshipEntity;
+    }
+
     public VoivodeshipEntity getVoivodeship() {
         return voivodeship;
     }
