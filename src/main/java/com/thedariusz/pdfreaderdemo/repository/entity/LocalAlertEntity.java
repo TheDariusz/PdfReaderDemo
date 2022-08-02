@@ -36,6 +36,10 @@ public class LocalAlertEntity {
     private String sms;
     private int degree;
 
+    @ManyToOne
+    @JoinColumn(name = "alert_status_id", referencedColumnName = "id")
+    private AlertStatusEntity status;
+
     public AlertTypeEntity getAlertType() {
         return alertType;
     }

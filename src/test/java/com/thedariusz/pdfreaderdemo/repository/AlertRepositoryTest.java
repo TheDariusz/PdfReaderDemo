@@ -6,18 +6,22 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDateTime;
 
 @SpringBootTest
-@ActiveProfiles("test")
-class AlertRepositoryIT {
+@ActiveProfiles("test-containers-flyway")
+@Testcontainers
+class AlertRepositoryTest {
 
     @Autowired
     private AlertRepository alertRepository;
 
     @Test
-    public void shouldSaveMeteoAlertToTheBase() {
+    void shouldSaveMeteoAlertToTheBase() {
+
+
         VoivodeshipEntity voivodeship = new VoivodeshipEntity();
         voivodeship.setCode("MZW");
         voivodeship.setName("Masovia");
