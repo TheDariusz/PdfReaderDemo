@@ -1,5 +1,6 @@
 package com.thedariusz.pdfreaderdemo.api;
 
+import com.thedariusz.pdfreaderdemo.AlertService;
 import com.thedariusz.pdfreaderdemo.ImgwPdfService;
 import com.thedariusz.pdfreaderdemo.model.MeteoAlert;
 import org.springframework.stereotype.Controller;
@@ -17,8 +18,11 @@ public class PdfController {
 
     private final ImgwPdfService imgwPdfService;
 
-    public PdfController(ImgwPdfService imgwPdfService) {
+    private final AlertService alertService;
+
+    public PdfController(ImgwPdfService imgwPdfService, AlertService alertService) {
         this.imgwPdfService = imgwPdfService;
+        this.alertService = alertService;
     }
 
     @GetMapping("/actual")
@@ -29,6 +33,8 @@ public class PdfController {
                 .map(MeteoAlert::new)
                 .toList();
         modelMap.put("listOfAlerts", meteoAlerts);
+
+        alertService.saveAlerts(meteoAlerts);
 
         return new ModelAndView("actual", modelMap);
     }

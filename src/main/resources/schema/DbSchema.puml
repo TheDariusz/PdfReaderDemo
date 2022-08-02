@@ -1,0 +1,84 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
+
+hide circle
+left to right direction
+skinparam roundcorner 5
+skinparam linetype ortho
+skinparam shadowing true
+skinparam handwritten false
+skinparam class {
+    BackgroundColor white
+    ArrowColor #2688d4
+    BorderColor #2688d4
+}
+
+table(MeteoAlert) {
+    * primary_key(id): UUID
+    * foreign_key(voivodeship_id): BIGINT
+    * alert_number: long
+    * published_at: DateTime
+}
+
+table("LocalAlert"){
+    * primary_key(id): UUID
+    * foreign_key(meteo_alert_id): BIGINT
+    * foreign_key(type_id): BIGINT
+    * foreign_key(status_id): BIGINT
+    * foreign_key(county_id): BIGINT
+    * start_date: timestamp
+      stop_date: timestamp
+    * description: text
+    * degree: int
+    * sms: text
+
+}
+
+table("Voivodeship"){
+    * primary_key(id): UUID
+    * name: text
+    * code: text
+
+}
+
+table("AlertStatus") {
+    * primary_key(id): UUID
+    * status: text
+
+}
+
+table("AlertType") {
+    * primary_key(id): UUID
+    * type: text
+}
+
+table("County") {
+    * primary_key(id): UUID
+    * foreign_key(local_meteo_alert_id): BIGINT
+    * foreign_key(voivodeship_id): long
+    * name: text
+    * teryt_id: text
+
+}
+
+table(LocalAlert_County) {
+    * foreign_key(local_meteo_alert_id): BIGINT
+    * foreign_key(county_id): BIGINT
+}
+
+MeteoAlert ||--|{ LocalAlert
+Voivodeship ||--|{ MeteoAlert
+Voivodeship ||--|{ County
+LocalAlert }|--|| AlertStatus
+LocalAlert }|--|| AlertType
+County }|--|| LocalAlert_County
+LocalAlert }|--|| LocalAlert_County
+
+
+
+@enduml
