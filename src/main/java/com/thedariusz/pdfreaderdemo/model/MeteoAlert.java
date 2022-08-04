@@ -1,7 +1,5 @@
 package com.thedariusz.pdfreaderdemo.model;
 
-import com.thedariusz.pdfreaderdemo.repository.entity.VoivodeshipEntity;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,5 +54,9 @@ public class MeteoAlert implements ExtractableText, ExtractableNumber, Extractab
 
     public Voivodeship getVoivodeship() {
         return voivodeship;
+    }
+
+    public List<LocalAlert> getLocalMeteoWarnings() {
+        return localMeteoWarnings;
     }
 }

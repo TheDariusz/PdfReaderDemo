@@ -103,4 +103,8 @@ public class LocalAlertEntity {
     public void setDegree(int degree) {
         this.degree = degree;
     }
+
+    public void setAlertStatus(AlertStatusEntity alertStatusEntity) {
+        this.status = alertStatusEntity;
+    }
 }

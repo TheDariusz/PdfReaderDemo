@@ -48,6 +48,4 @@ public record LocalAlert(
                 new Sms(localAlertText)
         );
     }
-    
-
 }

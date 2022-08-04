@@ -12,6 +12,13 @@ public class AlertTypeEntity {
 
     private String type;
 
+    public AlertTypeEntity() {
+    }
+
+    public AlertTypeEntity(String type) {
+        this.type = type;
+    }
+
     public String getType() {
         return type;
     }
