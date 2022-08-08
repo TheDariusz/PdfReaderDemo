@@ -21,7 +21,7 @@
         <hibernate-validator.version>7.0.4.Final</hibernate-validator.version>
         <postgresql.version>42.4.0</postgresql.version>
         <flyway.version>8.5.13</flyway.version>
-        <testcontainers.version>1.17.2</testcontainers.version>
+        <testcontainers.version>1.17.3</testcontainers.version>
     </properties>
     <dependencies>
         <dependency>
@@ -85,13 +85,13 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
-            <version>1.17.3</version>
+            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>1.17.3</version>
+            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

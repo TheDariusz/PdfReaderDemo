@@ -5,28 +5,26 @@ import com.thedariusz.pdfreaderdemo.repository.entity.VoivodeshipEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDateTime;
 
 @SpringBootTest
-@ActiveProfiles("test-containers-flyway")
 @Testcontainers
 class AlertRepositoryTest {
 
     @Autowired
     private AlertRepository alertRepository;
 
+    @Autowired
+    private VoivodeshipService voivodeshipService;
+
     @Test
     void shouldSaveMeteoAlertToTheBase() {
 
+        VoivodeshipEntity voivodeshipEntity = voivodeshipService.findByName("MZ");
 
-        VoivodeshipEntity voivodeship = new VoivodeshipEntity();
-        voivodeship.setCode("MZW");
-        voivodeship.setName("Masovia");
-
-        AlertEntity alertEntity = new AlertEntity(123, LocalDateTime.now(), null);
+        AlertEntity alertEntity = new AlertEntity(123, LocalDateTime.now(), voivodeshipEntity);
 
 
         alertRepository.save(alertEntity);
