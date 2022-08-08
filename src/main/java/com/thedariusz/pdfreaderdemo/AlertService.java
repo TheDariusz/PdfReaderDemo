@@ -32,7 +32,7 @@ public class AlertService {
 
     public void saveAlerts(List<MeteoAlert> meteoAlerts) {
         for (MeteoAlert meteoAlert : meteoAlerts) {
-            AlertEntity alert = save(meteoAlert);
+            AlertEntity alert = save(meteoAlert); //todo check if alert already exists
             meteoAlert.getLocalMeteoWarnings().stream()
                     .map(this::getLocalAlertEntity)
                     .peek(localAlertEntity -> localAlertEntity.setAlert(alert))

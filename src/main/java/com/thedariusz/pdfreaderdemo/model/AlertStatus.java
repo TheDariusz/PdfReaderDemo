@@ -26,7 +26,7 @@ public class AlertStatus implements ExtractableText {
 
     private static Status value(String status) {
         return Arrays.stream(Status.values())
-                .filter(alertStatus -> alertStatus.value.equals(status))
+                .filter(alertStatus -> alertStatus.value.equalsIgnoreCase(status))
                 .findFirst()
                 .orElse(Status.NEW);
     }
