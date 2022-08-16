@@ -12,8 +12,8 @@ public class VoivodeshipService {
         this.voivodeshipRepository = voivodeshipRepository;
     }
 
-    public VoivodeshipEntity findByName(String name) {
-        return voivodeshipRepository.findByCode(name)
+    public VoivodeshipEntity findByCode(String code) {
+        return voivodeshipRepository.findByCode(code)
                 .orElseThrow(() -> new IllegalArgumentException("Voivodeship not found"));
     }
 

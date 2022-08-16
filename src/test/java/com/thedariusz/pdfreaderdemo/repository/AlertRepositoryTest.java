@@ -26,7 +26,7 @@ class AlertRepositoryTest {
     @Test
     void shouldSaveMeteoAlertToTheBase() {
 
-        VoivodeshipEntity voivodeshipEntity = voivodeshipService.findByName("MZ");
+        VoivodeshipEntity voivodeshipEntity = voivodeshipService.findByCode("MZ");
 
         AlertEntity alertEntity = new AlertEntity(123, LocalDateTime.now(), voivodeshipEntity);
 

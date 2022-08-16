@@ -72,7 +72,7 @@ public class AlertService {
         AlertEntityDto alertEntityDto =
                 new AlertEntityDto(meteoAlert.getAlertNumber(),
                         meteoAlert.getPublishedDate(),
-                        voivodeshipService.findByName(meteoAlert.getVoivodeship().name()));
+                        voivodeshipService.findByCode(meteoAlert.getVoivodeship().name()));
         return alertEntityDto.toEntity();
     }
 
