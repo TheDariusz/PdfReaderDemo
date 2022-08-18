@@ -34,7 +34,7 @@ public class PdfController {
                 .toList();
         modelMap.put("listOfAlerts", meteoAlerts);
 
-//        alertService.saveAlerts(meteoAlerts);
+        alertService.saveAlerts(meteoAlerts);
 
         return new ModelAndView("actual", modelMap);
     }

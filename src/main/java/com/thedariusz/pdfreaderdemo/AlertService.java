@@ -8,9 +8,12 @@ import com.thedariusz.pdfreaderdemo.repository.entity.AlertEntity;
 import com.thedariusz.pdfreaderdemo.repository.entity.AlertStatusEntity;
 import com.thedariusz.pdfreaderdemo.repository.entity.AlertTypeEntity;
 import com.thedariusz.pdfreaderdemo.repository.entity.LocalAlertEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AlertService {
@@ -21,6 +24,7 @@ public class AlertService {
     private final AlertStatusEntityRepository alertStatusEntityRepository;
     private final LocalAlertRepository localAlertRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(AlertService.class);
 
     public AlertService(AlertRepository alertRepository, VoivodeshipService voivodeshipService, AlertTypeRepository alertTypeRepository, AlertStatusEntityRepository alertStatusEntityRepository, LocalAlertRepository localAlertRepository) {
         this.alertRepository = alertRepository;
@@ -32,16 +36,30 @@ public class AlertService {
 
     public void saveAlerts(List<MeteoAlert> meteoAlerts) {
         for (MeteoAlert meteoAlert : meteoAlerts) {
-            AlertEntity alert = save(meteoAlert); //todo check if alert already exists
-            meteoAlert.getLocalMeteoWarnings().stream()
-                    .map(this::getLocalAlertEntity)
-                    .peek(localAlertEntity -> localAlertEntity.setAlert(alert))
-                    .forEach(localAlertRepository::save);
+            Optional<AlertEntity> persistAlert = save(meteoAlert);
+            if (persistAlert.isPresent()) {
+                logger.info("Alert saved: {}", persistAlert.get());
+                saveLocalAlerts(meteoAlert, persistAlert.get());
+            } else {
+                logger.info("Alert not saved");
+            }
         }
     }
 
-    private AlertEntity save(MeteoAlert meteoAlert) {
-        return alertRepository.save(getAlertEntity(meteoAlert));
+    private void saveLocalAlerts(MeteoAlert meteoAlert, AlertEntity alert) {
+        meteoAlert.getLocalMeteoWarnings().stream()
+                .map(this::getLocalAlertEntity)
+                .peek(localAlertEntity -> localAlertEntity.setAlert(alert))
+                .forEach(localAlertRepository::save);
+    }
+
+    private Optional<AlertEntity> save(MeteoAlert meteoAlert) {
+        try {
+            return Optional.of(alertRepository.save(getAlertEntity(meteoAlert)));
+        } catch (Exception e) {
+            logger.warn("Alert already exists ({})", e.getMessage());
+            return Optional.empty();
+        }
     }
 
     private LocalAlertEntity getLocalAlertEntity(LocalAlert localAlert) {

@@ -3,6 +3,8 @@ package com.thedariusz.pdfreaderdemo.repository;
 import com.thedariusz.pdfreaderdemo.repository.entity.VoivodeshipEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class VoivodeshipService {
 
@@ -13,7 +15,8 @@ public class VoivodeshipService {
     }
 
     public VoivodeshipEntity findByCode(String code) {
-        return voivodeshipRepository.findByCode(code)
+        Optional<VoivodeshipEntity> voivodeshipRepositoryByCode = voivodeshipRepository.findByCode(code);
+        return voivodeshipRepositoryByCode
                 .orElseThrow(() -> new IllegalArgumentException("Voivodeship not found"));
     }
 

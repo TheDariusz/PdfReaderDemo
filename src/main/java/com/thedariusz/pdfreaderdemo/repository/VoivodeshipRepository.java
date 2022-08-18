@@ -12,5 +12,6 @@ public interface VoivodeshipRepository extends JpaRepository<VoivodeshipEntity, 
 
     @Query("select v from VoivodeshipEntity v where v.code = ?1")
     Optional<VoivodeshipEntity> findByCode(String code);
+
 }
 
