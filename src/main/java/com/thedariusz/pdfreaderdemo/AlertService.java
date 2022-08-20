@@ -47,8 +47,9 @@ public class AlertService {
     }
 
     private void saveLocalAlerts(MeteoAlert meteoAlert, AlertEntity alert) {
+        Long voivodeshipId = alert.getVoivodeship().getId();
         meteoAlert.getLocalMeteoWarnings().stream()
-                .map(this::getLocalAlertEntity)
+                .map(localAlert -> getLocalAlertEntity(localAlert, voivodeshipId))
                 .peek(localAlertEntity -> localAlertEntity.setAlert(alert))
                 .forEach(localAlertRepository::save);
     }
@@ -62,7 +63,7 @@ public class AlertService {
         }
     }
 
-    private LocalAlertEntity getLocalAlertEntity(LocalAlert localAlert) {
+    private LocalAlertEntity getLocalAlertEntity(LocalAlert localAlert, Long voivodeshipId) {
         LocalAlertEntity localAlertEntity = new LocalAlertEntity();
 
         AlertTypeEntity alertTypeEntity = getAlertTypeEntity(localAlert.type());
@@ -72,6 +73,8 @@ public class AlertService {
         localAlertEntity.setAlertStatus(statusEntity);
 
         localAlertEntity.setStartDate(localAlert.start());
+
+        localAlertEntity.setCountyEntities(voivodeshipService.getCountyEntities(localAlert.counties(), voivodeshipId));
 
         return localAlertEntity;
     }

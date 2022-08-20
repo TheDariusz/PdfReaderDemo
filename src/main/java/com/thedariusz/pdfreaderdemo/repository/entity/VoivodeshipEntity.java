@@ -38,4 +38,8 @@ public class VoivodeshipEntity {
     public void setCode(String code) {
         this.code = code;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
